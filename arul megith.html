@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Job Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f5f5f5;
+}
+
+header {
+  background: #2c3e50;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Sidebar */
+.filters {
+  flex: 1;
+  min-width: 200px;
+  padding: 15px;
+  background: #ecf0f1;
+}
+
+.filters select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* Job Cards */
+.jobs-container {
+  flex: 3;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+button {
+  padding: 8px 12px;
+  border: none;
+  background: #3498db;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background: white;
+  margin: 10% auto;
+  padding: 20px;
+  width: 300px;
+  border-radius: 10px;
+}
+
+.modal input, .modal textarea {
+  width: 100%;
+  margin: 5px 0;
+  padding: 8px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Job Portal</h1>
+</header>
+
+<div class="container">
+
+  <!-- Filters -->
+  <aside class="filters">
+    <h3>Filter Jobs</h3>
+    <select id="type" onchange="filterJobs()">
+      <option value="">All Types</option>
+      <option value="Full-time">Full-time</option>
+      <option value="Part-time">Part-time</option>
+    </select>
+  </aside>
+
+  <!-- Job Listings -->
+  <main id="jobs" class="jobs-container"></main>
+
+</div>
+
+<!-- Apply Modal -->
+<div id="applyModal" class="modal">
+  <div class="modal-content">
+    <h3>Apply Job</h3>
+    <input type="text" placeholder="Name">
+    <input type="email" placeholder="Email">
+    <textarea placeholder="Cover Letter"></textarea>
+    <button onclick="submitApplication()">Submit</button>
+    <button onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<script>
+// Job Data
+const jobs = [
+  { title: "Frontend Developer", company: "ABC Corp", type: "Full-time" },
+  { title: "Backend Developer", company: "XYZ Ltd", type: "Part-time" },
+  { title: "UI Designer", company: "DesignPro", type: "Full-time" }
+];
+
+// Display Jobs
+function displayJobs(jobList) {
+  const container = document.getElementById("jobs");
+  container.innerHTML = "";
+
+  jobList.forEach(job => {
+    container.innerHTML += `
+      <div class="card">
+        <h3>${job.title}</h3>
+        <p>${job.company}</p>
+        <p>${job.type}</p>
+        <button onclick="openModal()">Apply</button>
+      </div>
+    `;
+  });
+}
+
+// Filter Function
+function filterJobs() {
+  const type = document.getElementById("type").value;
+  const filtered = type ? jobs.filter(j => j.type === type) : jobs;
+  displayJobs(filtered);
+}
+
+// Modal Functions
+function openModal() {
+  document.getElementById("applyModal").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("applyModal").style.display = "none";
+}
+
+function submitApplication() {
+  alert("Application submitted!");
+  closeModal();
+}
+
+// Initial Load
+displayJobs(jobs);
+</script>
+
+</body>
+</html>
